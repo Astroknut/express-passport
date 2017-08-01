@@ -3,6 +3,17 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 
 module.exports = function(passport){
+
+	passport.serializeUser(function(user,callback){
+		callback(null,user.id);
+	});
+
+	passport.deserializeUser(function(id,callback){
+		User.findById(id, function(err,user){
+			callback(err,user);
+		});
+	});
+
 	passport.use('local-signup', new LocalStrategy({
 		usernameField: 'email',
 		passwordField: 'password',
@@ -20,7 +31,7 @@ module.exports = function(passport){
 				//Create user
 				let newUser = new User();
 				newUser.local.email = email;
-				newUser.local.passwoprd = newUser.hash(password);
+				newUser.local.password = newUser.hash(password);
 
 				newUser.save(function(err){
 					if(err) throw err;

@@ -5,7 +5,15 @@ function getSignup(request, response) {
 }
 
 // POST /signup
-function postSignup(request, response) {
+function postSignup(request, response,next) {
+	//Save a new user
+	let signupStrategy = passport.authenticate('local-signup', {
+		successRedirect: '/',
+		failureRedirect: '/signup',
+		failureFlash: true
+	});
+
+	return signupStrategy(request,response,next);
 }
 
 // GET /login
