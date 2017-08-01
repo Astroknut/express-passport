@@ -18,19 +18,30 @@ function postSignup(request, response,next) {
 }
 
 // GET /login
-function getLogin(request, response) { 
+function getLogin(request, response, next) { 
+	response.render('login.ejs', {message: request.flash('loginMessage')});
 }
 
 // POST /login 
-function postLogin(request, response) {
+function postLogin(request, response, next) {
+	let loginProperty = passport.authenticate('local-login', {
+		successRedirect: '/',
+		failureRedirect: '/login',
+		failureFlash: true
+	});
+
+	return loginProperty(request,response, next);
 }
 
 // GET /logout
-function getLogout(request, response) {
+function getLogout(request, response, next) {
+	request.logout();
+	response.redirect('/');
 }
 
 // Restricted page
 function secret(request, response){
+	response.send("YOOOOO THIS IS THE SECRET PAGGGEEEEEE!");
 }
 
 module.exports = {
