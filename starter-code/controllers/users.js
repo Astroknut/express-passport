@@ -1,7 +1,8 @@
-var passport = require("passport")
+var passport = require("passport");
 
 // GET /signup
-function getSignup(request, response) {
+function getSignup(request, response,next) {
+	response.render('signup.ejs', {message: request.flash('signupMessage')});
 }
 
 // POST /signup

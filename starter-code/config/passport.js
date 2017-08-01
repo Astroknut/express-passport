@@ -20,6 +20,8 @@ module.exports = function(passport){
 		passReqToCallback: true
 	}, function(req,email,password,callback){
 		//Find a user with a given email
+		console.log("email " + email);
+		console.log("password " + password);
 		User.findOne({'local.email': email}, function(err,user){
 			if (err) return callback(err);
 
